@@ -1,5 +1,5 @@
 {
-  "name": "VR Pet",
+  "name": "vr-pet",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,10 @@
   "author": "hypothete",
   "license": "MIT",
   "dependencies": {
+    "@tweenjs/tween.js": "^17.1.0",
     "aframe": "^0.6.1",
+    "aframe-environment": "git@github.com:feiss/aframe-environment-component.git",
+    "aframe-look-at-component": "^0.6.0",
     "buildify": "*",
     "vue": "^2.4.2"
   }

@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>VR Pet</title>
     <script src="node_modules/aframe/dist/aframe-master.js" charset="utf-8"></script>
+    <script src="node_modules/aframe-environment-component/dist/aframe-environment-component.min.js" charset="utf-8"></script>
+    <script src="node_modules/aframe-look-at-component/dist/aframe-look-at-component.js" charset="utf-8"></script>
   </head>
   <body style="font-family: sans-serif;">
 
@@ -19,9 +21,10 @@
         <a-camera wasd-controls-enabled=true fov=60 near=0.1 far=10000>
           <a-cursor></a-cursor>
         </a-camera>
-        <a-sky color="#6EBAA7"></a-sky>
         <creature></creature>
+        <a-entity environment="preset:default; groundTexture:walkernoise;"></a-entity>
       </a-scene>
+      <!-- <creature></creature> -->
     </div>
 
 
@@ -44,7 +47,6 @@
         <progress-bar min="0" :max="max" :value="obey" name="obey" width="500" height="50"></progress-bar>
         <div>interact: {{interact}}</div>
         <div>age: {{age}}</div>
-        <div>sick: {{sick}}</div>
         <div>dead: {{dead}}</div>
         <div>stage: {{stage}}</div>
         <div style="display:flex; flex-direction:row;">
@@ -58,7 +60,7 @@
     </script>
 
     <script type="text/x-template" id="creature2">
-        <a-box color="#408" height="1" width="1" depth="1" :position="aPosition" :scale="aScale" @click="toggleMenu">
+        <a-box color="#408" height="1" width="1" depth="1" :position="aPosition" :scale="aScale" look-at="[camera]" @click="toggleMenu">
 
           <!-- top of head -->
           <a-box color="#408" height="0.1" width="0.33" depth="0.33" position="0 0.55 0" rotation="0 25 0"></a-box>
@@ -80,13 +82,13 @@
             <a-text align="center" position="0.763 0.483 0.01" value="sleep" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doSleep" ></a-text>
             <a-text align="center" position="-0.731 -0.036 0.01" value="poop" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doPoop" ></a-text>
             <a-text align="center" position="-0.405 -0.515 0.01" value="scold" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doScold" ></a-text>
+            <a-text align="center" position="-1.505 -0.515 0.01" value="move" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doMove" ></a-text>
           </a-entity>
 
         </a-box>
     </script>
-
-
     <script src="node_modules/vue/dist/vue.min.js" charset="utf-8"></script>
+    <script src="node_modules/@tweenjs/tween.js/src/Tween.js" charset="utf-8"></script>
     <script src="app.js" charset="utf-8"></script>
   </body>
 </html>

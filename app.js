@@ -1,4 +1,4 @@
-(function (Vue, AFRAME) {
+(function (Vue, AFRAME, TWEEN) {
 
   Vue.config.devtools = true;
 
@@ -34,7 +34,10 @@
         sleep: 100,
         toilet: 10,
         interact: Date.now(),
-        position: [0,0,-5],
+        x: 0,
+        y: 1,
+        z: -5,
+        aPosition: [0,0,0],
         aSpeechBubble: false,
         showMenu: false,
         moving: false,
@@ -80,12 +83,11 @@
         }
         //consider switching to an array for names
       },
-      aPosition: function () {
-        return this.position.join(' ');
+      scale: function () {
+        return Math.ceil(this.age / this.ageLength);
       },
       aScale: function () {
-        let scale = Math.ceil(this.age / this.ageLength);
-        return scale + ' ' + scale + ' ' + scale;
+        return this.scale + ' ' + this.scale + ' ' + this.scale;
       },
       aFace: function () {
         return '#'+this.stage;
@@ -96,7 +98,7 @@
         this.state = name;
         this.aSpeechBubble = true;
         dead = dead || false;
-        if (name === dead) return;
+        if (dead) return;
         setTimeout(() => {
           this.state = 'idle';
           this.aSpeechBubble = false;
@@ -198,12 +200,40 @@
           this.setState('healing');
         }
       },
+      doMove: function (e) {
+        e.stopPropagation();
+        this.aMove(this.x + Math.random()*1-0.5,this.y,this.z + Math.random()*1-0.5);
+      },
       toggleMenu: function () {
         this.showMenu = !this.showMenu;
+      },
+      aMove: function (newX, newY, newZ) {
+        let vm = this;
+        let tweenObj = {x:vm.x,y:vm.y,z:vm.z};
+        new TWEEN.Tween(tweenObj)
+        .to({x:newX,y:newY,z:newZ}, 500)
+        .onUpdate(function () {
+          vm.aPosition = [tweenObj.x, tweenObj.y, tweenObj.z].join(' ');
+        })
+        .onComplete(function () {
+          vm.x = newX;
+          vm.y = newY;
+          vm.z = newZ;
+        })
+        .start();
+
+        function animate () {
+          if (TWEEN.update()) {
+            requestAnimationFrame(animate);
+          }
+        }
+
+        animate();
       }
     },
     created: function () {
       this.timer = setInterval(this.tick, 1000);
+      this.aPosition = [this.x, this.y, this.z].join(' ');
     }
   });
 
@@ -214,4 +244,4 @@
     ]
   });
 
-})(window.Vue, window.AFRAME);
+})(window.Vue, window.AFRAME, window.TWEEN);
