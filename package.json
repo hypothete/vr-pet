@@ -1,0 +1,16 @@
+{
+  "name": "VR Pet",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hypothete",
+  "license": "MIT",
+  "dependencies": {
+    "aframe": "^0.6.1",
+    "buildify": "*",
+    "vue": "^2.4.2"
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR Pet</title>
+    <script src="node_modules/aframe/dist/aframe-master.js" charset="utf-8"></script>
+  </head>
+  <body style="font-family: sans-serif;">
+
+    <div id="app">
+      <a-scene>
+        <a-assets>
+          <img id="Baby" src="images/Baby.png">
+          <img id="Child" src="images/Child.png">
+          <img id="Teen" src="images/Teen.png">
+          <img id="Adult" src="images/Adult.png">
+          <img id="Senior" src="images/Senior.png">
+        </a-assets>
+        <a-camera wasd-controls-enabled=true fov=60 near=0.1 far=10000>
+          <a-cursor></a-cursor>
+        </a-camera>
+        <a-sky color="#6EBAA7"></a-sky>
+        <creature></creature>
+      </a-scene>
+    </div>
+
+
+    <script type="text/x-template" id="progress-bar">
+      <svg :width="width" :height="height">
+        <rect x="0" y="0" :width="width" :height="height" fill="#6ef"></rect>
+        <rect x="0" y="0" :width="scaleValue" :height="height" fill="#d40"></rect>
+        <text :x="width/8" :y="height/2" style="font-family: sans-serif;">{{name}}</text>
+      </svg>
+    </script>
+
+    <script type="text/x-template" id="creature">
+      <div style="display: flex; flex-direction: column;">
+        <h3><input type="text" :value="name"></input> {{state}}</h3>
+        <progress-bar min="0" :max="max" :value="health" name="health" width="500" height="50"></progress-bar>
+        <progress-bar min="0" :max="max" :value="happy" name="happy" width="500" height="50"></progress-bar>
+        <progress-bar min="0" :max="max" :value="sleep" name="sleep" width="500" height="50"></progress-bar>
+        <progress-bar min="0" :max="max" :value="hunger" name="hunger" width="500" height="50"></progress-bar>
+        <progress-bar min="0" :max="max" :value="toilet" name="toilet" width="500" height="50"></progress-bar>
+        <progress-bar min="0" :max="max" :value="obey" name="obey" width="500" height="50"></progress-bar>
+        <div>interact: {{interact}}</div>
+        <div>age: {{age}}</div>
+        <div>sick: {{sick}}</div>
+        <div>dead: {{dead}}</div>
+        <div>stage: {{stage}}</div>
+        <div style="display:flex; flex-direction:row;">
+          <button @click="doHeal">heal</button>
+          <button @click="doFeed">feed</button>
+          <button @click="doSleep">sleep</button>
+          <button @click="doPoop">toilet</button>
+          <button @click="doScold">scold</button>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="creature2">
+        <a-box color="#408" height="1" width="1" depth="1" :position="aPosition" :scale="aScale" @click="toggleMenu">
+
+          <!-- top of head -->
+          <a-box color="#408" height="0.1" width="0.33" depth="0.33" position="0 0.55 0" rotation="0 25 0"></a-box>
+
+          <!-- face -->
+          <a-plane :src="aFace" position="0 0 0.51" rotation="0 0 0" width="1" height="1"
+            material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"></a-plane>
+
+          <!-- speech bubble -->
+          <a-plane  position="1 1 0" rotation="0 0 0" width="1" height="0.6"
+            material="side: double; color: #ffffff;">
+            <a-text position="-0.4 0 0.01" :value="state" color="#000"></a-text>
+          </a-plane>
+
+          <!-- menu -->
+          <a-entity  position="-1 1 0" v-if="this.showMenu">
+            <a-text align="center" position="0.207 -0.053 0.01" value="heal" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane"  @click="doHeal" ></a-text>
+            <a-text align="center" position="-0.212 0.455 0.01" value="feed" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doFeed" ></a-text>
+            <a-text align="center" position="0.763 0.483 0.01" value="sleep" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doSleep" ></a-text>
+            <a-text align="center" position="-0.731 -0.036 0.01" value="poop" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doPoop" ></a-text>
+            <a-text align="center" position="-0.405 -0.515 0.01" value="scold" color="#000" geometry="width: 0.6; height: 0.32; primitive: plane" @click="doScold" ></a-text>
+          </a-entity>
+
+        </a-box>
+    </script>
+
+
+    <script src="node_modules/vue/dist/vue.min.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+  </body>
+</html>
