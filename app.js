@@ -187,12 +187,12 @@
           this.setState('wontpoop');
         }
       },
-      doScold: function (e) {
+      doTrain: function (e) {
         e.stopPropagation();
         this.doInteract();
         this.happy -= this.max/10;
         this.obey += this.max;
-        this.setState('scolded');
+        this.setState('alert');
       },
       doHeal: function (e){
         e.stopPropagation();
