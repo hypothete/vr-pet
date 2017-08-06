@@ -118,9 +118,15 @@
       },
       sleepTick: function () {
         this.sleep -= 1;
+        if (this.sleep < this.max/4) {
+          this.setState('sleepy');
+        }
       },
       poopTick: function () {
         this.toilet ++;
+        if (this.poop > this.max * 0.75) {
+          this.setState('need toilet');
+        }
         if (this.toilet > this.max) {
           this.health -= this.max/10;
           this.setState('pooping');
